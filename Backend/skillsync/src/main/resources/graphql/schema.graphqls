@@ -1,21 +1,31 @@
-type Skill {
+type Goal {
   id: ID!
   name: String!
   description: String
-  progressEntries: [ProgressEntry]
+  steps: [Step]
 }
 
-type ProgressEntry {
+type Step {
   id: ID!
+  title: String!
+  description: String
+  entries: [Entry]
+}
+
+type Entry {
+  id: ID!
+  title: String!
   date: String!
-  level: Int!
-  notes: String
+  time: String!
+  message: String
 }
 
 type Query {
-  getSkills: [Skill]
+  getGoals: [Goal]
 }
 
 type Mutation {
-  addSkill(name: String!, description: String): Skill
+  addGoal(name: String!, description: String): Goal
+  addStep(title: String!, description: String): Step
+  addEntry(title: String!, message: String): Entry
 }
