@@ -59,4 +59,12 @@ public class Entry {
         this.time = time;
     }
 
+    public Step getStep() {
+        return step;
+    }
+
+    public void setStep(Step step) {
+        this.step = step;
+    }
+
 }

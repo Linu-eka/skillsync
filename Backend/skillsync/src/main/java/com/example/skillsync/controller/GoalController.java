@@ -21,6 +21,11 @@ public class GoalController {
         return repo.findAll();
     }
 
+    @QueryMapping
+    public Goal getGoalById(@Argument Long id) {
+        return repo.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid goal ID"));
+    }
+
     @MutationMapping
     public Goal addGoal(@Argument String name, @Argument String description) {
         Goal goal = new Goal();

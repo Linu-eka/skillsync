@@ -19,3 +19,12 @@ export const GET_GOALS = gql`
 
         }
   }`;
+
+  export const GET_STEPS = gql`
+  query GetSteps {
+    getSteps {
+        id
+        title
+        description
+    }
+  }`;

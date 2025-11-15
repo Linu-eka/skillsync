@@ -22,10 +22,11 @@ type Entry {
 
 type Query {
   getGoals: [Goal]
+  getGoalById(id: ID!): Goal
 }
 
 type Mutation {
   addGoal(name: String!, description: String): Goal
-  addStep(title: String!, description: String): Step
-  addEntry(title: String!, message: String): Entry
+  addStep(title: String!, description: String, goalId: ID!): Step
+  addEntry(title: String!, message: String, stepId: ID!): Entry
 }

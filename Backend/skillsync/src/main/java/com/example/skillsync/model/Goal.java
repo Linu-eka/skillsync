@@ -41,4 +41,12 @@ public class Goal {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public List<Step> getSteps() {
+        return Steps;
+    }
+
+    public void setSteps(List<Step> steps) {
+        Steps = steps;
+    }
 }
