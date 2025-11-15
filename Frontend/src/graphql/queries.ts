@@ -9,3 +9,13 @@ export const GET_SKILLS = gql`
     }
   }
 `;
+
+export const GET_GOALS = gql`
+  query GetGoals {
+    getGoals {
+        id
+        name
+        description
+
+        }
+  }`;

@@ -9,3 +9,13 @@ export const ADD_SKILL = gql`
     }   
     }
 `;
+
+export const ADD_GOAL = gql`
+mutation AddGoal ($name: String!, $description: String){
+  addGoal(name: $name, description: $description) {
+    id
+    name
+    description
+  }
+  }
+`;
