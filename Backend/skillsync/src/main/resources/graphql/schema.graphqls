@@ -24,6 +24,8 @@ type Query {
   getGoals: [Goal]
   getGoalById(id: ID!): Goal
   getStepsById(id: ID!): [Step]
+  getStepById(id: ID!): Step
+  getEntriesById(id: ID!): [Entry]
 }
 
 type Mutation {

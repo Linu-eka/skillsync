@@ -31,8 +31,6 @@ public class GoalController {
     public List<Step> getStepsById(@Argument Long id) {
         Goal goal = repo.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid goal ID"));
-        System.out.println("Fetched steps for goal ID: " + id);
-        System.out.println("Number of steps: " + goal.getSteps().size());
         return goal.getSteps();
     }
 

@@ -5,7 +5,9 @@ import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
 
 import com.example.skillsync.repository.StepRepository;
+
 import com.example.skillsync.model.Step;
+import com.example.skillsync.model.Entry;
 import java.util.List;
 
 import org.springframework.graphql.data.method.annotation.Argument;
@@ -24,6 +26,18 @@ public class StepController {
     @QueryMapping
     public List<Step> getSteps() {
         return repo.findAll();
+    }
+
+    @QueryMapping
+    public Step getStepById(@Argument Long id) {
+        return repo.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid step ID"));
+    }
+
+    @QueryMapping
+    public List<Entry> getEntriesById(@Argument Long id) {
+        Step step = repo.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid step ID"));
+        return step.getEntries();
+
     }
 
     @MutationMapping
