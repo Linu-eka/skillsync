@@ -1,11 +1,11 @@
 import GoalList from "../components/GoalList";
-import GoalCard from "../components/GoalCard";
+import SkillList from "../components/SkillList";
 
 export default function Home() {
   return (
     <div>
       <h1>Welcome to your Goal Tracker</h1>
-      <GoalCard />
+      <GoalList />
     </div>
   );
 }

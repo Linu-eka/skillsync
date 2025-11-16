@@ -1,5 +1,15 @@
 import {gql} from '@apollo/client';
 
+export const GET_SKILLS = gql`
+  query GetSkills {
+    getSkills { 
+        id
+        name
+        description
+    }
+  }
+`;
+
 export const GET_GOALS = gql`
   query GetGoals {
     getGoals {
@@ -10,30 +20,11 @@ export const GET_GOALS = gql`
         }
   }`;
 
-  export const GET_GOAL = gql`
-  query GetGoal($id: ID!) {
-    getGoalById(id: $id) {
-        id
-        name
-        description
-        }
-  }`;
-
   export const GET_STEPS = gql`
-  query GetSteps($id: ID!) {
-  getStepsById(id: $id) {
-    id
-    title
-    description
-  }
-}`;
-
-export const GET_ENTRIES = gql`
-query GetEntries($id: ID!) {
-  getEntriesById(id: $id) {
-    id
-    title
-  }
-}`;
-  
-
+  query GetSteps {
+    getSteps {
+        id
+        title
+        description
+    }
+  }`;
