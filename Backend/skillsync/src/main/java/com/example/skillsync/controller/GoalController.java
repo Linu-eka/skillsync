@@ -7,6 +7,7 @@ import org.springframework.graphql.data.method.annotation.Argument;
 import com.example.skillsync.repository.GoalRepository;
 import com.example.skillsync.model.Goal;
 import java.util.List;
+import com.example.skillsync.model.Step;
 
 @Controller
 public class GoalController {
@@ -24,6 +25,15 @@ public class GoalController {
     @QueryMapping
     public Goal getGoalById(@Argument Long id) {
         return repo.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid goal ID"));
+    }
+
+    @QueryMapping
+    public List<Step> getStepsById(@Argument Long id) {
+        Goal goal = repo.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid goal ID"));
+        System.out.println("Fetched steps for goal ID: " + id);
+        System.out.println("Number of steps: " + goal.getSteps().size());
+        return goal.getSteps();
     }
 
     @MutationMapping

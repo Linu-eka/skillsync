@@ -23,6 +23,7 @@ type Entry {
 type Query {
   getGoals: [Goal]
   getGoalById(id: ID!): Goal
+  getStepsById(id: ID!): [Step]
 }
 
 type Mutation {
