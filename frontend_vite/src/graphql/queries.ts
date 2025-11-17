@@ -33,11 +33,39 @@ export const GET_GOALS = gql`
   }
 }`;
 
+export const GET_STEP = gql`
+query GetStep($id: ID!) {
+  getStepById(id: $id) {
+    id
+    title
+    description
+  }
+}`;
+
 export const GET_ENTRIES = gql`
 query GetEntries($id: ID!) {
   getEntriesById(id: $id) {
     id
     title
+    message
+    time
+    date
+  }
+}`;
+
+export const GET_ENTRIES_AND_STEP = gql`
+query GetEntriesAndStep($id: ID!) {
+  getEntriesById(id: $id) {
+    id
+    title
+    message
+    time
+    date
+  }
+  getStepById(id: $id) {
+    id
+    title
+    description
   }
 }`;
   

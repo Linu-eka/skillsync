@@ -1,5 +1,5 @@
 
-interface Entries {
+interface Entry {
     id: string;
     title: string;
     message: string;
@@ -7,4 +7,4 @@ interface Entries {
     date: string;
 }
 
-export { Entries };
+export { Entry };
