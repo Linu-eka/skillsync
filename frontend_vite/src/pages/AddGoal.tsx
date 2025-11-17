@@ -1,38 +1,36 @@
 import { useState } from "react";
 import { useMutation } from "@apollo/client/react";
-import { ADD_SKILL } from "../graphql/mutations";
-import { GET_SKILLS } from "../graphql/queries";
+import { ADD_GOAL } from "../graphql/mutations";
+import { GET_GOALS } from "../graphql/queries";
 
-export default function AddSkill() {
+export default function AddGoal() {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-
-  const [addSkill] = useMutation(ADD_SKILL, {
-    refetchQueries: [{ query: GET_SKILLS }],
+  const [addGoal] = useMutation(ADD_GOAL, {
+    refetchQueries: [{ query: GET_GOALS }],
   });
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    addSkill({ variables: { name, description } });
+    addGoal({ variables: { name, description } });
     setName("");
     setDescription("");
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      <h2>Add a New Skill</h2>
+      <h2>Add a New Goal</h2>
       <input
         type="text"
-        placeholder="Skill Name"
+        placeholder="Goal Name"
         value={name}
         onChange={(e) => setName(e.target.value)}
       />
       <textarea
-        placeholder="Skill Description"
+        placeholder="Goal Description"
         value={description}
         onChange={(e) => setDescription(e.target.value)}
       />
-      <button type="submit">Add Skill</button>
+      <button type="submit">Add Goal</button>
     </form>
   );
 }

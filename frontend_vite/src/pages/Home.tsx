@@ -1,3 +1,4 @@
+import GoalCard from "../components/GoalCard";
 import GoalList from "../components/GoalList";
 
 export default function Home() {
