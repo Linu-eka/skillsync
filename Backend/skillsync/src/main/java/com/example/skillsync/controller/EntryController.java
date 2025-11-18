@@ -35,4 +35,13 @@ public class EntryController {
         return repo.save(entry);
     }
 
+    @MutationMapping
+    public Boolean deleteEntry(@Argument Long id) {
+        if (repo.existsById(id)) {
+            repo.deleteById(id);
+            return true;
+        }
+        return false;
+    }
+
 }

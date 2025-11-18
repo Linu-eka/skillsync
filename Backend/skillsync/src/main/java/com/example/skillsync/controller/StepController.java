@@ -51,4 +51,13 @@ public class StepController {
         return repo.save(step);
     }
 
+    @MutationMapping
+    public Boolean deleteStep(@Argument Long id) {
+        if (repo.existsById(id)) {
+            repo.deleteById(id);
+            return true;
+        }
+        return false;
+    }
+
 }

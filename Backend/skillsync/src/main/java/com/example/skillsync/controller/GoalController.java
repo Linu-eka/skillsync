@@ -42,4 +42,13 @@ public class GoalController {
         return repo.save(goal);
     }
 
+    @MutationMapping
+    public Boolean deleteGoal(@Argument Long id) {
+        if (repo.existsById(id)) {
+            repo.deleteById(id);
+            return true;
+        }
+        return false;
+    }
+
 }

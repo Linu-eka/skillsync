@@ -8,205 +8,40 @@ import {
   DialogTitle,
 } from "@headlessui/react";
 import { useMutation } from "@apollo/client/react";
-import { GET_GOALS } from "../graphql/queries";
-import { GET_ENTRIES_AND_STEP } from "../graphql/queries";
-import { GET_GOAL } from "../graphql/queries";
+import type { DocumentNode } from "@apollo/client";
+import { GET_GOALS, GET_ENTRIES_AND_STEP, GET_GOAL } from "../graphql/queries";
+import { ADD_GOAL, ADD_STEP, ADD_ENTRY } from "../graphql/mutations";
 
-import { ADD_GOAL } from "../graphql/mutations";
-import { ADD_STEP } from "../graphql/mutations";
-import { ADD_ENTRY } from "../graphql/mutations";
-
-function NewStepForm({
-  handleClose,
-  goalId,
-}: {
-  handleClose: () => void;
-  goalId?: string;
-}) {
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [addStep] = useMutation(ADD_STEP, {
-    refetchQueries: [{ query: GET_GOAL, variables: { id: goalId } }],
-  });
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    addStep({
-      variables: { title: name, description: description, goalId: goalId },
-    });
-    setName("");
-    setDescription("");
-    handleClose();
-  };
-
-  return (
-    <form onSubmit={handleSubmit}>
-      <div className="space-y-12">
-        <div className="border-b border-white/10 pb-12">
-          <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-            <div className="sm:col-span-4">
-              <label
-                htmlFor="first-name"
-                className="block text-sm/6 font-medium text-white"
-              >
-                Title
-              </label>
-              <div className="mt-2">
-                <input
-                  type="text"
-                  placeholder="Title"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  id="first-name"
-                  name="first-name"
-                  autoComplete="given-name"
-                  required={true}
-                  className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
-                />
-              </div>
-            </div>
-            <div className="col-span-full">
-              <label
-                htmlFor="about"
-                className="block text-sm/6 font-medium text-white"
-              >
-                Notes
-              </label>
-              <div className="mt-2">
-                <textarea
-                  id="about"
-                  name="about"
-                  rows={3}
-                  className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                />
-              </div>
-              <p className="mt-3 text-sm/6 text-gray-400 mb-3">
-                Write a few sentences describing your work.
-              </p>
-              <button
-                type="submit"
-                className="mr-2 inline-flex w-full justify-center rounded-md bg-green-500 px-3 py-2 text-sm font-semibold text-white hover:bg-green-400 sm:w-1/3"
-              >
-                Submit
-              </button>
-              <button
-                type="button"
-                data-autofocus
-                onClick={() => handleClose()}
-                className="mt-3 inline-flex w-full justify-center rounded-md bg-white/10 px-3 py-2 text-sm font-semibold text-white ring-1 ring-inset ring-white/5 hover:bg-white/20 sm:mt-0 sm:w-auto"
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </form>
-  );
+// A configuration object for UI strings
+interface FormUIStrings {
+  titleLabel: string;
+  descriptionLabel: string;
+  descriptionHelperText: string;
 }
 
-function NewEntryForm({
-  handleClose,
-  stepId,
-}: {
+// Props for the new generic form
+interface CreationFormProps {
   handleClose: () => void;
-  stepId?: string;
-}) {
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [addEntry] = useMutation(ADD_ENTRY, {
-    refetchQueries: [
-      { query: GET_ENTRIES_AND_STEP, variables: { id: stepId } },
-    ],
-  });
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    addEntry({
-      variables: { title: name, message: description, stepId: stepId },
-    });
-    setName("");
-    setDescription("");
-    handleClose();
-  };
-
-  return (
-    <form onSubmit={handleSubmit}>
-      <div className="space-y-12">
-        <div className="border-b border-white/10 pb-12">
-          <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-            <div className="sm:col-span-4">
-              <label
-                htmlFor="first-name"
-                className="block text-sm/6 font-medium text-white"
-              >
-                Title
-              </label>
-              <div className="mt-2">
-                <input
-                  type="text"
-                  placeholder="Title"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  id="first-name"
-                  name="first-name"
-                  autoComplete="given-name"
-                  required={true}
-                  className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
-                />
-              </div>
-            </div>
-            <div className="col-span-full">
-              <label
-                htmlFor="about"
-                className="block text-sm/6 font-medium text-white"
-              >
-                Notes
-              </label>
-              <div className="mt-2">
-                <textarea
-                  id="about"
-                  name="about"
-                  rows={3}
-                  className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                />
-              </div>
-              <p className="mt-3 text-sm/6 text-gray-400 mb-3">
-                Write a few sentences describing your work.
-              </p>
-              <button
-                type="submit"
-                className="mr-2 inline-flex w-full justify-center rounded-md bg-green-500 px-3 py-2 text-sm font-semibold text-white hover:bg-green-400 sm:w-1/3"
-              >
-                Submit
-              </button>
-              <button
-                type="button"
-                data-autofocus
-                onClick={() => handleClose()}
-                className="mt-3 inline-flex w-full justify-center rounded-md bg-white/10 px-3 py-2 text-sm font-semibold text-white ring-1 ring-inset ring-white/5 hover:bg-white/20 sm:mt-0 sm:w-auto"
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </form>
-  );
+  mutation: DocumentNode;
+  mutationOptions: any;
+  getVariables: (name: string, description: string) => object;
+  uiStrings: FormUIStrings;
 }
 
-function NewGoalForm({ handleClose }: { handleClose: () => void }) {
+function CreationForm({
+  handleClose,
+  mutation,
+  mutationOptions,
+  getVariables,
+  uiStrings,
+}: CreationFormProps) {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [addGoal] = useMutation(ADD_GOAL, {
-    refetchQueries: [{ query: GET_GOALS }],
-  });
+  const [executeMutation] = useMutation(mutation, mutationOptions);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    addGoal({ variables: { name, description } });
+    executeMutation({ variables: getVariables(name, description) });
     setName("");
     setDescription("");
     handleClose();
@@ -219,20 +54,18 @@ function NewGoalForm({ handleClose }: { handleClose: () => void }) {
           <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
             <div className="sm:col-span-4">
               <label
-                htmlFor="first-name"
+                htmlFor="form-title"
                 className="block text-sm/6 font-medium text-white"
               >
-                Goal Name
+                {uiStrings.titleLabel}
               </label>
               <div className="mt-2">
                 <input
                   type="text"
-                  placeholder="Goal Name"
+                  placeholder={uiStrings.titleLabel}
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  id="first-name"
-                  name="first-name"
-                  autoComplete="given-name"
+                  id="form-title"
                   required={true}
                   className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
                 />
@@ -240,15 +73,14 @@ function NewGoalForm({ handleClose }: { handleClose: () => void }) {
             </div>
             <div className="col-span-full">
               <label
-                htmlFor="about"
+                htmlFor="form-description"
                 className="block text-sm/6 font-medium text-white"
               >
-                Description
+                {uiStrings.descriptionLabel}
               </label>
               <div className="mt-2">
                 <textarea
-                  id="about"
-                  name="about"
+                  id="form-description"
                   rows={3}
                   className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
                   value={description}
@@ -256,7 +88,7 @@ function NewGoalForm({ handleClose }: { handleClose: () => void }) {
                 />
               </div>
               <p className="mt-3 text-sm/6 text-gray-400 mb-3">
-                Write a few sentences describing your goal.
+                {uiStrings.descriptionHelperText}
               </p>
               <button
                 type="submit"
@@ -267,7 +99,7 @@ function NewGoalForm({ handleClose }: { handleClose: () => void }) {
               <button
                 type="button"
                 data-autofocus
-                onClick={() => handleClose()}
+                onClick={handleClose}
                 className="mt-3 inline-flex w-full justify-center rounded-md bg-white/10 px-3 py-2 text-sm font-semibold text-white ring-1 ring-inset ring-white/5 hover:bg-white/20 sm:mt-0 sm:w-auto"
               >
                 Cancel
@@ -291,6 +123,74 @@ export default function Popup({
 }) {
   const [open, setOpen] = useState(false);
 
+  const handleClose = () => setOpen(false);
+
+  const getFormComponent = () => {
+    switch (type) {
+      case "Goal":
+        return (
+          <CreationForm
+            handleClose={handleClose}
+            mutation={ADD_GOAL}
+            mutationOptions={{ refetchQueries: [{ query: GET_GOALS }] }}
+            getVariables={(name, description) => ({ name, description })}
+            uiStrings={{
+              titleLabel: "Goal Name",
+              descriptionLabel: "Description",
+              descriptionHelperText:
+                "Write a few sentences describing your goal.",
+            }}
+          />
+        );
+      case "Step":
+        return (
+          <CreationForm
+            handleClose={handleClose}
+            mutation={ADD_STEP}
+            mutationOptions={{
+              refetchQueries: [{ query: GET_GOAL, variables: { id } }],
+            }}
+            getVariables={(name, description) => ({
+              title: name,
+              description,
+              goalId: id,
+            })}
+            uiStrings={{
+              titleLabel: "Title",
+              descriptionLabel: "Notes",
+              descriptionHelperText:
+                "Write a few sentences describing your work.",
+            }}
+          />
+        );
+      case "Entry":
+        return (
+          <CreationForm
+            handleClose={handleClose}
+            mutation={ADD_ENTRY}
+            mutationOptions={{
+              refetchQueries: [
+                { query: GET_ENTRIES_AND_STEP, variables: { id } },
+              ],
+            }}
+            getVariables={(name, description) => ({
+              title: name,
+              message: description,
+              stepId: id,
+            })}
+            uiStrings={{
+              titleLabel: "Title",
+              descriptionLabel: "Notes",
+              descriptionHelperText:
+                "Write a few sentences describing your work.",
+            }}
+          />
+        );
+      default:
+        return null;
+    }
+  };
+
   return (
     <div>
       <button
@@ -304,7 +204,6 @@ export default function Popup({
           transition
           className="fixed inset-0 bg-gray-900/50 transition-opacity data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in"
         />
-
         <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
           <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
             <DialogPanel
@@ -313,36 +212,14 @@ export default function Popup({
             >
               <div className="bg-gray-800 px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
                 <div className="sm:flex sm:items-start">
-                  <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+                  <div className="mt-3 w-full text-center sm:ml-4 sm:mt-0 sm:text-left">
                     <DialogTitle
                       as="h3"
                       className="text-base font-semibold text-white"
                     >
                       {name}
                     </DialogTitle>
-                    <div className="mt-2">
-                      {/* Form to add Goal, Step or Entry */}
-                      <p className="text-sm text-gray-400">
-                        Are you sure you want to deactivate your account? All of
-                        your data will be permanently removed. This action
-                        cannot be undone.
-                      </p>
-                      {type === "Goal" && (
-                        <NewGoalForm handleClose={() => setOpen(false)} />
-                      )}
-                      {type === "Step" && (
-                        <NewStepForm
-                          handleClose={() => setOpen(false)}
-                          goalId={id}
-                        />
-                      )}
-                      {type === "Entry" && (
-                        <NewEntryForm
-                          handleClose={() => setOpen(false)}
-                          stepId={id}
-                        />
-                      )}
-                    </div>
+                    <div className="mt-2">{getFormComponent()}</div>
                   </div>
                 </div>
               </div>

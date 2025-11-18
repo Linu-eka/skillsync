@@ -32,4 +32,7 @@ type Mutation {
   addGoal(name: String!, description: String): Goal
   addStep(title: String!, description: String, goalId: ID!): Step
   addEntry(title: String!, message: String, stepId: ID!): Entry
+  deleteGoal(id: ID!): Boolean
+  deleteStep(id: ID!): Boolean
+  deleteEntry(id: ID!): Boolean
 }
