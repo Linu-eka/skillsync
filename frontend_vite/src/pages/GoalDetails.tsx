@@ -4,6 +4,7 @@ import { useQuery } from "@apollo/client/react";
 import { GET_GOAL } from "../graphql/queries";
 import StepCard from "../components/StepCard";
 import Popup from "../components/Popup";
+import { DELETE_STEP } from "../graphql/mutations";
 export default function GoalDetails() {
   // Use the id from the route parameters (uncomment this if you want dynamic IDs)
   const { id } = useParams<{ id: string }>();
@@ -27,7 +28,16 @@ export default function GoalDetails() {
       <ul>
         {data?.getGoalById.steps.map((step) => (
           <li key={step.id}>
-            <StepCard {...step} />
+            <StepCard
+              id={step.id}
+              title={step.title}
+              description={step.description}
+              mutation={DELETE_STEP}
+              mutationOptions={{
+                refetchQueries: [{ query: GET_GOAL, variables: { id } }],
+              }}
+              getVariables={(id: string) => ({ id })}
+            />
           </li>
         ))}
       </ul>

@@ -39,3 +39,22 @@ mutation AddEntry($stepId: ID!, $title: String!, $message: String) {
   }
 }
 `;
+
+export const DELETE_GOAL = gql`
+mutation DeleteGoal($id: ID!) {
+  deleteGoal(id: $id)
+}
+`;
+
+export const DELETE_STEP = gql`
+mutation DeleteStep($id: ID!) {
+  deleteStep(id: $id)
+}
+`;
+
+export const DELETE_ENTRY = gql`
+mutation DeleteEntry($id: ID!) {
+  deleteEntry(id: $id)
+}
+`;
+

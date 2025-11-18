@@ -5,6 +5,7 @@ import type { Entry } from "../types/Entry";
 import type { Step } from "../types/Step";
 import EntryCard from "../components/EntryCard";
 import Popup from "../components/Popup";
+import { DELETE_ENTRY } from "../graphql/mutations";
 
 export default function EntriesView() {
   const { id } = useParams<{ id: string }>();
@@ -26,7 +27,20 @@ export default function EntriesView() {
       <Popup name="Add Entry" type="Entry" id={id} />
       {data?.getEntriesById.map((entry) => (
         <div key={entry.id}>
-          <EntryCard {...entry} />
+          <EntryCard
+            id={entry.id}
+            title={entry.title}
+            message={entry.message}
+            date={entry.date}
+            time={entry.time}
+            mutation={DELETE_ENTRY}
+            mutationOptions={{
+              refetchQueries: [
+                { query: GET_ENTRIES_AND_STEP, variables: { id } },
+              ],
+            }}
+            getVariables={(id: string) => ({ id })}
+          />
         </div>
       ))}
     </div>
