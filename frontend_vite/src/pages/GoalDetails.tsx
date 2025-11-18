@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { useQuery } from "@apollo/client/react";
 import { GET_GOAL } from "../graphql/queries";
 import StepCard from "../components/StepCard";
+import Popup from "../components/Popup";
 export default function GoalDetails() {
   // Use the id from the route parameters (uncomment this if you want dynamic IDs)
   const { id } = useParams<{ id: string }>();
@@ -22,6 +23,7 @@ export default function GoalDetails() {
       <h2>{data?.getGoalById.name}</h2>
       <h3>Description: {data?.getGoalById.description}</h3>
       <h3>Steps:</h3>
+      <Popup name="Add Step" type="Step" id={id} />
       <ul>
         {data?.getGoalById.steps.map((step) => (
           <li key={step.id}>

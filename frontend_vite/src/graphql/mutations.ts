@@ -31,8 +31,8 @@ mutation AddStep($goalId: ID!, $title: String!, $description: String) {
 `;
 
 export const ADD_ENTRY = gql`
-mutation AddEntry($stepId: ID!, $title: String!) {
-  addEntry(stepId: $stepId, title: $title) {
+mutation AddEntry($stepId: ID!, $title: String!, $message: String) {
+  addEntry(stepId: $stepId, title: $title, message: $message) {
     id
     title
     message

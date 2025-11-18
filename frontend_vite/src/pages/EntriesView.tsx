@@ -4,6 +4,7 @@ import { GET_ENTRIES_AND_STEP } from "../graphql/queries"; // Combine queries
 import type { Entry } from "../types/Entry";
 import type { Step } from "../types/Step";
 import EntryCard from "../components/EntryCard";
+import Popup from "../components/Popup";
 
 export default function EntriesView() {
   const { id } = useParams<{ id: string }>();
@@ -22,6 +23,7 @@ export default function EntriesView() {
   return (
     <div>
       <h2>Step: {data?.getStepById.title}</h2>
+      <Popup name="Add Entry" type="Entry" id={id} />
       {data?.getEntriesById.map((entry) => (
         <div key={entry.id}>
           <EntryCard {...entry} />

@@ -2,6 +2,7 @@ import { useQuery } from "@apollo/client/react";
 import { GET_GOALS } from "../graphql/queries";
 import type { GetGoalsData, Goal } from "../types/Goal";
 import GoalCard from "./GoalCard";
+import Popup from "./Popup";
 
 export default function GoalList() {
   const { data, loading, error } = useQuery<GetGoalsData>(GET_GOALS);
@@ -12,6 +13,7 @@ export default function GoalList() {
   return (
     <div>
       <h2>Your Goals</h2>
+      <Popup name="Add Goal" type="Goal" />
       <ul>
         {data?.getGoals.map((goal: Goal) => (
           <li key={goal.id}>
