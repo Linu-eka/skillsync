@@ -1,3 +1,14 @@
+type User {
+  id: ID!
+  username: String!
+  email: String!
+}
+
+type AuthPayload {
+  user: User!
+  token: String!
+}
+
 type Goal {
   id: ID!
   name: String!
@@ -20,6 +31,17 @@ type Entry {
   message: String
 }
 
+input RegisterInput {
+  username: String!
+  email: String!
+  password: String!
+}
+
+input LoginInput {
+  username: String!
+  password: String!
+}
+
 type Query {
   getGoals: [Goal]
   getGoalById(id: ID!): Goal
@@ -35,4 +57,6 @@ type Mutation {
   deleteGoal(id: ID!): Boolean
   deleteStep(id: ID!): Boolean
   deleteEntry(id: ID!): Boolean
+  register(input: RegisterInput!): AuthPayload!
+  login(input: LoginInput!): AuthPayload!
 }
